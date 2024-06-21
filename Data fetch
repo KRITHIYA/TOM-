@@ -1,0 +1,39 @@
+clc
+clear all
+close all
+addpath('functions\');
+
+% Read temperature for the last 10 hours from a ThingSpeak channel and 
+% visualize temperature variations using the MATLAB HISTOGRAM function. 
+   
+% Channel 12397 contains data from the MathWorks Weather Station, located 
+% in Natick, Massachusetts. The data is collected once every minute. Field 
+% 4 contains temperature data. 
+% Channel ID to read data from 
+readChannelID = 2418351; 
+   
+% Temperature Field ID 
+TemperatureFieldID = 2; 
+
+% Channel Read API Key   
+% If your channel is private, then enter the read API  
+% Key between the '' below:   
+readAPIKey = 'YSTQEMBR0ZMMVS98';
+
+% Get temperature data from field 4 for the last 10 hours = 10 x 60 
+% minutes. Learn more about the THINGSPEAKREAD function by going to 
+% the Documentation tab on the right side pane of this page. 
+   
+oxygen_level = thingSpeakRead(readChannelID,'Fields',TemperatureFieldID,...
+'NumMinutes',30, 'ReadKey',readAPIKey); 
+
+data = thingSpeakRead(2418351,Fields=[1:3],NumMinutes=30,OutputFormat='TimeTable')
+
+figure();
+plot(oxygen_level,LineStyle="--",Color='g'); 
+ylim([80 120]);
+xlabel('Past Oxygen level entry in Cloud Server'); 
+ylabel('Oxygen level'); 
+title('Graph for Oxygen level Variation');
+
+
